@@ -1,8 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&family=Space+Grotesk:wght@300..700&family=Fira+Code:wght@400;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Monument Grotesk';
+  src: url('/fonts/monumentgrotesk-regular.woff2') format('woff2'),
+       url('/fonts/monumentgrotesk-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avantt';
+  src: url('/fonts/avantt-variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --bg-light: #e6e6e6;
@@ -13,8 +28,8 @@
   --text-light: #F4F3EF;
   --accent-lime: #C6FF3D;
   --accent-gold: #C9A227;
-  --font-display: 'Space Grotesk', -apple-system, sans-serif;
-  --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-display: 'Monument Grotesk', -apple-system, sans-serif;
+  --font-body: 'Avantt', -apple-system, sans-serif;
   --font-code: 'Fira Code', monospace;
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
