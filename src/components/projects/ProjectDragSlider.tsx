@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { projectsData, Project } from '@/data/projects';
 
@@ -12,12 +12,10 @@ export default function ProjectDragSlider() {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
-  // Floating preview card mouse tracker
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
   };
 
-  // Drag scroll handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
     setIsDragging(true);
@@ -44,22 +42,6 @@ export default function ProjectDragSlider() {
 
   return (
     <div className="relative" onMouseMove={handleMouseMove}>
-      {/* Section Title & Drag Indicator */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end px-6 md:px-12 mb-10">
-        <div>
-          <span className="text-xs font-code text-accent uppercase tracking-widest block mb-2">
-            // Selected Deliverables
-          </span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-fg">
-            Featured Engineering Projects
-          </h2>
-        </div>
-        <div className="mt-4 md:mt-0 flex items-center gap-3 text-xs font-code text-fg-muted">
-          <span className="inline-block w-2 h-2 rounded-full bg-accent animate-ping" />
-          <span>[ DRAG HORIZONTALLY OR HOVER FOR PREVIEW ]</span>
-        </div>
-      </div>
-
       {/* Horizontal Drag Slider */}
       <div
         ref={sliderRef}
@@ -67,7 +49,7 @@ export default function ProjectDragSlider() {
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleDragMove}
-        className={`flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory px-6 md:px-12 pb-12 pt-4 no-scrollbar cursor-grab ${
+        className={`flex gap-10 md:gap-16 overflow-x-auto snap-x snap-mandatory px-6 md:px-16 pb-16 pt-6 no-scrollbar cursor-grab ${
           isDragging ? 'cursor-grabbing select-none' : ''
         }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -77,110 +59,84 @@ export default function ProjectDragSlider() {
             key={project.slug}
             onMouseEnter={() => setHoveredProject(project)}
             onMouseLeave={() => setHoveredProject(null)}
-            className="flex-shrink-0 w-[320px] sm:w-[420px] md:w-[540px] snap-start group"
+            className="flex-shrink-0 w-[85vw] md:w-[70vw] lg:w-[60vw] max-w-[860px] snap-start group"
           >
+            {/* Card Device Container */}
             <Link href={`/work/${project.slug}`} className="block">
               <div
-                className="w-full h-[360px] md:h-[460px] rounded-2xl border border-white/10 bg-bg-card p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-500 group-hover:border-accent/50 group-hover:shadow-[0_0_30px_rgba(198,255,61,0.1)]"
+                className="w-full h-[400px] sm:h-[500px] md:h-[580px] rounded-3xl bg-[#f0f0f0] border border-black/10 p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden transition-transform duration-500 group-hover:scale-[1.01] shadow-2xl"
                 data-cursor-label="EXPLORE"
               >
-                {/* Top Bar Metadata */}
-                <div className="flex justify-between items-center text-xs font-code text-fg-muted z-10">
-                  <span className="text-accent font-semibold">{project.index}</span>
-                  <span>{project.year}</span>
+                {/* SVG Cover / Mockup Display */}
+                <div className="w-full h-full rounded-2xl overflow-hidden relative bg-[#0A0A0C]">
+                  <img
+                    src={project.cover}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
                 </div>
-
-                {/* Center Title & Description */}
-                <div className="z-10 my-auto">
-                  <span className="text-xs font-code text-fg-muted uppercase tracking-wider block mb-2">
-                    {project.category}
-                  </span>
-                  <h3 className="font-display text-2xl md:text-4xl font-bold tracking-tight text-fg mb-4 weight-hover">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-fg-muted line-clamp-3 leading-relaxed">
-                    {project.description}
-                  </p>
-                </div>
-
-                {/* Bottom Roles & Action */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/10 text-xs font-code text-fg-muted z-10">
-                  <div className="flex flex-wrap gap-2">
-                    {project.roles.slice(0, 3).map((role, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[11px]"
-                      >
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="text-accent font-semibold group-hover:translate-x-1 transition-transform">
-                    Case Study →
-                  </span>
-                </div>
-
-                {/* Background Pattern Accent */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               </div>
             </Link>
 
-            {/* Links Bar Below Card */}
-            <div className="flex items-center justify-between mt-4 px-2 text-xs font-code text-fg-muted">
-              <span>{project.team}</span>
-              <div className="flex gap-4">
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-accent border-b border-fg-muted hover:border-accent transition-colors"
-                  >
-                    Live Demo ↗
-                  </a>
-                )}
-                {project.repoUrl && (
-                  <a
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-accent border-b border-fg-muted hover:border-accent transition-colors"
-                  >
-                    GitHub ↗
-                  </a>
-                )}
+            {/* Recording-Matched Metadata Layout Below Card */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-6 border-t border-black/10 mt-6 text-[#111111]">
+              {/* Left Column: Index, Title & Category */}
+              <div className="lg:col-span-6 flex items-start gap-4">
+                <span className="font-display text-xl font-bold text-[#111111]">{project.index}</span>
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-[#111111] leading-tight weight-hover">
+                    {project.title}
+                  </h3>
+                  <span className="text-sm font-body text-[#555555] font-medium block mt-1">
+                    {project.category}
+                  </span>
+                  <div className="mt-4">
+                    {project.liveUrl ? (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block text-sm font-body font-semibold text-[#111111] border-b border-[#111111] pb-0.5 hover:opacity-70 transition-opacity"
+                      >
+                        Project link ↗
+                      </a>
+                    ) : project.repoUrl ? (
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block text-sm font-body font-semibold text-[#111111] border-b border-[#111111] pb-0.5 hover:opacity-70 transition-opacity"
+                      >
+                        GitHub code ↗
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+
+              {/* Middle Column: Year */}
+              <div className="lg:col-span-2">
+                <span className="text-sm font-body font-medium text-[#111111]">{project.year}</span>
+              </div>
+
+              {/* Right Column: Team & Roles */}
+              <div className="lg:col-span-4 space-y-2">
+                <div>
+                  <span className="text-sm font-body font-medium text-[#111111] block">
+                    {project.team}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs font-code text-[#777777] uppercase tracking-wider block">Roles</span>
+                  <span className="text-xs font-body font-medium text-[#333333] block">
+                    {project.roles.join(' • ')}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      {/* Floating Hover-Preview Panel (Follows Cursor) */}
-      {hoveredProject && !isDragging && (
-        <div
-          className="fixed pointer-events-none z-[9990] hidden md:flex flex-col justify-between p-4 w-[260px] h-[160px] bg-bg-card/95 border border-accent/40 rounded-xl shadow-2xl backdrop-blur-md transition-opacity duration-300"
-          style={{
-            left: `${mousePos.x + 20}px`,
-            top: `${mousePos.y + 20}px`,
-          }}
-        >
-          <div className="flex justify-between items-center text-[10px] font-code text-accent">
-            <span>PREVIEW // {hoveredProject.index}</span>
-            <span>{hoveredProject.year}</span>
-          </div>
-          <div className="my-auto">
-            <h4 className="font-display text-sm font-bold text-fg leading-tight">
-              {hoveredProject.title}
-            </h4>
-            <p className="text-[11px] text-fg-muted mt-1 line-clamp-2">
-              {hoveredProject.category}
-            </p>
-          </div>
-          <div className="text-[10px] font-code text-accent/80 text-right">
-            CLICK TO VIEW ARCHITECTURE
-          </div>
-        </div>
-      )}
     </div>
   );
 }

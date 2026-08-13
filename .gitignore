@@ -2,3 +2,5 @@ node_modules
 .next/
 leoparpeix_assets.zip
 leoparpeix_assets/
+*.mp4
+
