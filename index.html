@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chauhan Aditya — Full Stack Developer & Systems Architect</title>
+  <meta name="description" content="Portfolio of Chauhan Aditya Ganpatbhai - Full Stack Developer specializing in React, Node.js, Express, MongoDB, TypeScript, and AI-assisted web development.">
+  <meta name="author" content="Chauhan Aditya Ganpatbhai">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Chauhan Aditya — Full Stack Developer & Systems Architect">
+  <meta property="og:description" content="Driven by precision. Obsessed with fullstack architecture.">
+  <meta property="og:url" content="https://the-flat-white.vercel.app/">
+
+  <!-- Three.js 3D Engine, GLTFLoader & DRACOLoader -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Custom Cursor & DRAG Badge Overlay -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-follower"></div>
+  <div id="cursor-drag-badge">DRAG</div>
+
+  <!-- Noise Background Overlay -->
+  <div class="noise-overlay"></div>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="brand-block">
+      <a href="#work" class="brand-name nav-tab-link" data-view="work">Chauhan Aditya</a>
+      <span class="brand-sub">Full Stack Developer & Systems Architect</span>
+    </div>
+
+    <div class="nav-right">
+      <ul class="nav-tabs">
+        <li><a href="#work" class="nav-tab-link active" data-view="work">Work</a></li>
+        <li><a href="#about" class="nav-tab-link" data-view="about">About</a></li>
+        <li><a href="#playground" class="nav-tab-link" data-view="playground">Playground</a></li>
+      </ul>
+
+      <!-- Equalizer Sound Button (Leo Parpeix Style) -->
+      <button class="sound-equalizer-btn playing" id="sound-eq-btn" title="Toggle Sound Equalizer">
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- VIEW 1: WORK (Homepage) -->
+  <div id="view-work" class="view-section active">
+    <section class="work-hero">
+      <div>
+        <h1 class="hero-tagline">
+          Driven by precision. <br>
+          Obsessed with fullstack architecture.
+        </h1>
+        <div class="scroll-indicator">
+          <span>↓ Scroll down to explore selected deliverables</span>
+        </div>
+      </div>
+
+      <!-- 3D WebGL Home Model Container (scene_v9.glb) -->
+      <div id="webgl-hero-container"></div>
+    </section>
+
+    <!-- Selected Projects Drag Slider -->
+    <section class="projects-slider-section">
+      <div id="projects-slider-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Archives Section -->
+    <section class="archives-section">
+      <h2 class="archives-title">Engineering Archives & Coursework</h2>
+      <div id="archives-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+  </div>
+
+  <!-- VIEW 2: ABOUT -->
+  <div id="view-about" class="view-section">
+    <section class="about-hero">
+      <div>
+        <h1 class="about-headline">
+          Bringing depth, performance, and architecture to every web application.
+        </h1>
+      </div>
+
+      <!-- 3D WebGL Flower Model Container (scene_v15.glb) -->
+      <div id="webgl-about-container"></div>
+    </section>
+
+    <section class="about-content-section">
+      <div class="about-grid">
+        <div>
+          <p class="about-bio-text">
+            I'm <strong>Chauhan Aditya Ganpatbhai</strong>, a Full Stack Developer based in Surat, Gujarat. I hold a Bachelor of Computer Applications (BCA) degree with <strong>Distinction (SGPA 8.78)</strong> from Udhna Citizen Commerce College (VNSGU) and am completing Full Stack Web Development certification at <strong>Oscar Career Point Academy</strong>.
+          </p>
+
+          <p class="about-bio-text">
+            My engineering workflow combines rigorous manual development across <strong>React, Node.js, Express, MongoDB, and TypeScript</strong> with structured technical AI agent orchestration—enabling me to deliver complex production applications at rapid velocity.
+          </p>
+
+          <a href="Aditya_Chauhan_Resume.pdf" download="Aditya_Chauhan_Resume.pdf" class="btn-resume">
+            📥 Download PDF Resume
+          </a>
+
+          <div class="timeline-block">
+            <h3 class="timeline-heading">Professional Experience</h3>
+
+            <div class="timeline-entry">
+              <div class="timeline-date-tag">2025 – PRESENT</div>
+              <div class="timeline-role-title">Freelance Full-Stack Developer</div>
+              <div class="timeline-org-sub">Remote / Surat, Gujarat</div>
+              <p style="color:var(--text-light-muted); font-size:0.95rem; margin-top:6px;">
+                Designed and built production platforms for clients including JourneyFlicker (Travel agency platform + quotation PDF engine), JourneyFlicker WhatsApp Bot, Bobby Salon, and The Flat White Coffee House.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="timeline-block" style="margin-top:0;">
+            <h3 class="timeline-heading">Education & Certifications</h3>
+
+            <div class="timeline-entry">
+              <div class="timeline-date-tag">2024 – PRESENT</div>
+              <div class="timeline-role-title">Full Stack Web Development Certification</div>
+              <div class="timeline-org-sub">Oscar Career Point Academy, Surat</div>
+              <p style="color:var(--text-light-muted); font-size:0.95rem; margin-top:6px;">
+                Comprehensive fullstack JavaScript ecosystem training, REST API design, and capstone architecture. Completing in 1-2 months.
+              </p>
+            </div>
+
+            <div class="timeline-entry">
+              <div class="timeline-date-tag">FEB 2025</div>
+              <div class="timeline-role-title">Bachelor of Computer Applications (BCA)</div>
+              <div class="timeline-org-sub">Udhna Citizen Commerce College (VNSGU)</div>
+              <p style="color:var(--text-light-muted); font-size:0.95rem; margin-top:6px;">
+                Graduated with <strong>Distinction (SGPA: 8.78 / 10)</strong>. Coursework in Web Development, Database Management Systems, PHP, and Android Java.
+              </p>
+            </div>
+
+            <div class="timeline-entry">
+              <div class="timeline-date-tag">CERTIFICATIONS</div>
+              <div class="timeline-role-title">Web Design & AI Coursework</div>
+              <div class="timeline-org-sub">Veer Narmad South Gujarat University (VNSGU)</div>
+            </div>
+          </div>
+
+          <div class="timeline-block">
+            <h3 class="timeline-heading">Technical Skills</h3>
+            <div class="skills-matrix">
+              <span class="skill-tag">JavaScript (ES6+)</span>
+              <span class="skill-tag">React.js</span>
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">Express.js</span>
+              <span class="skill-tag">MongoDB (Mongoose)</span>
+              <span class="skill-tag">TypeScript ⚡</span>
+              <span class="skill-tag">Three.js / WebGL</span>
+              <span class="skill-tag">Tailwind CSS</span>
+              <span class="skill-tag">Bootstrap 5</span>
+              <span class="skill-tag">WhatsApp API</span>
+              <span class="skill-tag">Git / GitHub</span>
+              <span class="skill-tag">Postman</span>
+              <span class="skill-tag">AI Agent Orchestration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- VIEW 3: PLAYGROUND -->
+  <div id="view-playground" class="view-section">
+    <section class="about-hero">
+      <div>
+        <h1 class="about-headline">
+          Exploring emerging technologies, automation bots, and enterprise architectures.
+        </h1>
+      </div>
+    </section>
+
+    <section class="about-content-section">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:32px;">
+        <div style="background:rgba(255,255,255,0.05); border:1px solid var(--border-light); padding:32px; border-radius:16px;">
+          <span style="font-family:var(--font-code); color:var(--accent-mint); font-size:0.85rem;">01 // AUTOMATION BOT</span>
+          <h3 style="font-family:var(--font-headline); font-size:1.5rem; margin:12px 0; color:#fff;">WhatsApp Travel Inquiry Engine</h3>
+          <p style="color:var(--text-light-muted); font-size:0.95rem;">Node.js backend bot handling real-time customer travel queries, instant quotation responses, and automated booking follow-ups.</p>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); border:1px solid var(--border-light); padding:32px; border-radius:16px;">
+          <span style="font-family:var(--font-code); color:var(--accent-mint); font-size:0.85rem;">02 // CREATIVE TECH</span>
+          <h3 style="font-family:var(--font-headline); font-size:1.5rem; margin:12px 0; color:#fff;">Three.js 3D Café Visuals</h3>
+          <p style="color:var(--text-light-muted); font-size:0.95rem;">Scroll-scrubbed video hero rendering combined with GSAP animations for The Flat White Coffee House.</p>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); border:1px solid var(--border-light); padding:32px; border-radius:16px;">
+          <span style="font-family:var(--font-code); color:var(--accent-mint); font-size:0.85rem;">03 // ENTERPRISE BACKEND</span>
+          <h3 style="font-family:var(--font-headline); font-size:1.5rem; margin:12px 0; color:#fff;">156 REST API Endpoints</h3>
+          <p style="color:var(--text-light-muted); font-size:0.95rem;">House of Hackney capstone architecture spanning 43 MongoDB collections across 5 domain modules.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Shared Kinetic Footer -->
+  <footer>
+    <div class="marquee-container">
+      <div class="marquee-track">
+        <span class="marquee-text">LET'S BUILD A REMARKABLE DIGITAL PRODUCT ★ YOUR VISION STARTS HERE ★</span>
+        <span class="marquee-text">LET'S BUILD A REMARKABLE DIGITAL PRODUCT ★ YOUR VISION STARTS HERE ★</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom-row">
+      <button class="footer-btn-credits">Credits</button>
+
+      <div class="footer-social-links">
+        <a href="mailto:adichauha465@gmail.com">adichauha465@gmail.com</a>
+        <a href="tel:+918200438411">+91 8200438411</a>
+        <a href="https://www.linkedin.com/in/chauhan-aditya-11832431a" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/vits465" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Credits Modal -->
+  <div class="credits-modal" id="credits-modal">
+    <div class="credits-modal-box">
+      <button class="credits-close-btn">&times;</button>
+      <h3 style="font-family:var(--font-headline); font-size:1.6rem; margin-bottom:12px;">Credits & Specifications</h3>
+      <p style="color:var(--text-light-muted); font-size:0.95rem; line-height:1.6; margin-bottom:20px;">
+        Designed & engineered for <strong>Chauhan Aditya Ganpatbhai</strong> based on Léo Parpeix interactive architecture.
+      </p>
+      <hr style="border-color:var(--border-light); margin:16px 0;">
+      <p style="font-size:0.9rem; color:var(--text-light-muted);">• <strong>Typography:</strong> Monument Grotesk & Avantt Variable</p>
+      <p style="font-size:0.9rem; color:var(--text-light-muted);">• <strong>3D Engine:</strong> Three.js + GLTFLoader + DRACOLoader</p>
+      <p style="font-size:0.9rem; color:var(--text-light-muted);">• <strong>Audio Engine:</strong> Web Audio API Synthesizer</p>
+    </div>
+  </div>
+
+  <!-- JavaScript Files -->
+  <script src="js/audio-effects.js"></script>
+  <script src="js/three-scene.js"></script>
+  <script src="js/slider.js"></script>
+  <script src="js/projects-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
