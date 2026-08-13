@@ -11,14 +11,14 @@ function HomeModel() {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.003;
-      meshRef.current.rotation.x = state.mouse.y * 0.15;
-      meshRef.current.rotation.y += state.mouse.x * 0.15;
+      meshRef.current.rotation.y += 0.0025;
+      meshRef.current.rotation.x = state.mouse.y * 0.12;
+      meshRef.current.rotation.y += state.mouse.x * 0.12;
     }
   });
 
   return (
-    <group ref={meshRef} scale={[1.35, 1.35, 1.35]} position={[0, -0.2, 0]}>
+    <group ref={meshRef} scale={[1.85, 1.85, 1.85]} position={[0, -0.3, 0]}>
       <primitive object={scene} />
     </group>
   );
@@ -35,20 +35,20 @@ function FloatingItem({ path, position, scale }: { path: string; position: [numb
 
 function Particles() {
   const pointsRef = useRef<THREE.Points>(null);
-  const count = 120;
+  const count = 160;
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      pos[i * 3] = (Math.random() - 0.5) * 14;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 14;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 12;
     }
     return pos;
   }, []);
 
   useFrame((_, delta) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.05;
+      pointsRef.current.rotation.y += delta * 0.04;
     }
   });
 
@@ -76,7 +76,7 @@ function FallbackMesh() {
 
   return (
     <mesh ref={ref}>
-      <torusKnotGeometry args={[1.2, 0.38, 128, 32]} />
+      <torusKnotGeometry args={[1.5, 0.45, 128, 32]} />
       <meshPhongMaterial color="#083D2A" specular="#e5cf96" shininess={90} transparent opacity={0.9} />
     </mesh>
   );
@@ -84,13 +84,13 @@ function FallbackMesh() {
 
 export default function Hero3DCanvas() {
   if (typeof window === 'undefined') {
-    return <div className="w-full h-[480px] md:h-[580px] relative bg-black/5 animate-pulse rounded-2xl" />;
+    return <div className="fixed inset-0 w-full h-full bg-black/5 animate-pulse" />;
   }
 
   return (
-    <div className="w-full h-[480px] md:h-[580px] relative">
+    <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
       <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }}>
-        <ambientLight intensity={1.5} />
+        <ambientLight intensity={1.6} />
         <directionalLight position={[5, 8, 5]} intensity={2.5} color="#e5cf96" />
         <directionalLight position={[-5, -5, 3]} intensity={1.8} color="#146949" />
         <pointLight position={[0, 3, 2]} intensity={1.5} color="#e5cf96" />
@@ -99,10 +99,10 @@ export default function Hero3DCanvas() {
 
         <Suspense fallback={<FallbackMesh />}>
           <HomeModel />
-          <FloatingItem path="/models/global/flower/flower_v2.glb" position={[-2.2, 1.6, 0.5]} scale={0.7} />
-          <FloatingItem path="/models/global/bee/bee_v4.glb" position={[2.4, 1.8, 0.8]} scale={0.6} />
-          <FloatingItem path="/models/global/fruits/orange.glb" position={[-2.6, -1.4, 1]} scale={0.55} />
-          <FloatingItem path="/models/global/fruits/raisin.glb" position={[2.5, -1.5, 0.7]} scale={0.5} />
+          <FloatingItem path="/models/global/flower/flower_v2.glb" position={[-3.2, 2.0, 0.5]} scale={0.8} />
+          <FloatingItem path="/models/global/bee/bee_v4.glb" position={[3.2, 2.2, 0.8]} scale={0.7} />
+          <FloatingItem path="/models/global/fruits/orange.glb" position={[-3.6, -1.8, 1]} scale={0.65} />
+          <FloatingItem path="/models/global/fruits/raisin.glb" position={[3.5, -2.0, 0.7]} scale={0.6} />
         </Suspense>
       </Canvas>
     </div>

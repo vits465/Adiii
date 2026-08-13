@@ -11,7 +11,7 @@ import { siteConfig } from '@/data/site';
 
 const Hero3DCanvas = dynamic(() => import('@/components/three/Hero3DCanvas'), {
   ssr: false,
-  loading: () => <div className="w-full h-[480px] bg-black/5 animate-pulse rounded-2xl" />,
+  loading: () => <div className="fixed inset-0 w-full h-full bg-black/5 animate-pulse" />,
 });
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,57 +24,56 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative bg-[#e6e6e6] text-[#111111]">
-      {/* HERO SECTION */}
-      <section className="min-h-[85vh] px-6 md:px-12 pt-28 pb-16 flex flex-col justify-between relative overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center my-auto">
-          {/* Oversized Recording-Matched Typography Statement */}
-          <div className="lg:col-span-7 space-y-4 z-10">
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] text-[#111111] uppercase">
-              DRIVEN BY PRECISION <br />
-              AND FULLSTACK <br />
-              ARCHITECTURE
-            </h1>
+    <div ref={containerRef} className="relative bg-[#e6e6e6] text-[#111111] min-h-screen">
+      {/* Fullscreen 3D Background Canvas */}
+      <Hero3DCanvas />
 
-            <p className="text-base sm:text-lg text-[#555555] max-w-xl font-body leading-relaxed pt-4">
-              Engineering 3-layer Node.js microservices, high-frequency signal engines, and immersive 3D WebGL web applications.
-            </p>
+      {/* HERO SECTION OVERLAY */}
+      <section className="min-h-screen px-6 md:px-12 pt-32 pb-20 flex flex-col justify-between relative z-10">
+        <div className="max-w-4xl my-auto space-y-6">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-black/10 text-xs font-code text-[#111111] uppercase tracking-wider backdrop-blur-sm">
+            // FULLSTACK & WEBGL ARCHITECT
+          </span>
 
-            <div className="pt-4 flex flex-wrap items-center gap-4 text-xs font-code">
-              <Link
-                href="/about"
-                className="px-6 py-3 rounded-full bg-[#111111] text-[#F4F3EF] font-bold hover:bg-black transition-colors"
-                data-cursor-label="ABOUT"
-              >
-                Explore Architecture →
-              </Link>
-              <a
-                href={siteConfig.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 rounded-full border border-[#111111] text-[#111111] font-semibold hover:bg-[#111111] hover:text-white transition-colors"
-              >
-                GitHub Repositories ↗
-              </a>
-            </div>
-          </div>
+          <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.98] text-[#111111] uppercase drop-shadow-sm">
+            DRIVEN BY PRECISION <br />
+            AND FULLSTACK <br />
+            ARCHITECTURE
+          </h1>
 
-          {/* Right WebGL Interactive Canvas */}
-          <div className="lg:col-span-5 w-full h-[420px] sm:h-[500px] lg:h-[540px] z-10">
-            <Hero3DCanvas />
+          <p className="text-lg sm:text-xl text-[#333333] max-w-2xl font-body leading-relaxed pt-2 font-medium">
+            Engineering 3-layer Node.js microservices, high-frequency signal engines, and immersive 3D WebGL web applications.
+          </p>
+
+          <div className="pt-6 flex flex-wrap items-center gap-4 text-xs font-code">
+            <Link
+              href="/about"
+              className="px-8 py-4 rounded-full bg-[#111111] text-[#F4F3EF] font-bold hover:bg-black transition-transform duration-300 hover:scale-105 shadow-xl"
+              data-cursor-label="ABOUT"
+            >
+              Explore Architecture →
+            </Link>
+            <a
+              href={siteConfig.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 rounded-full border-2 border-[#111111] text-[#111111] font-semibold hover:bg-[#111111] hover:text-white transition-all duration-300 backdrop-blur-sm"
+            >
+              GitHub Repositories ↗
+            </a>
           </div>
         </div>
       </section>
 
       {/* FEATURED PROJECTS DRAG CAROUSEL */}
-      <section className="py-16 md:py-24 border-t border-black/10">
+      <section className="relative z-10 py-20 md:py-28 border-t border-black/10 bg-[#e6e6e6]/90 backdrop-blur-sm">
         <ProjectDragSlider />
       </section>
 
       {/* ARCHIVES TABULAR SECTION */}
-      <section className="px-6 md:px-16 py-20 border-t border-black/10">
+      <section className="relative z-10 px-6 md:px-16 py-24 border-t border-black/10 bg-[#e6e6e6]">
         <div className="max-w-6xl mx-auto space-y-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-[#111111]">
+          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-[#111111]">
             Archives
           </h2>
 
@@ -85,11 +84,11 @@ export default function HomePage() {
                 className="py-6 grid grid-cols-12 items-center gap-4 hover:bg-black/5 px-4 rounded-xl transition-colors group cursor-pointer"
                 data-cursor-label="VIEW"
               >
-                <div className="col-span-1 font-display text-base font-bold text-[#111111]">
+                <div className="col-span-1 font-display text-lg font-bold text-[#111111]">
                   {i + 1}
                 </div>
                 <div className="col-span-6 md:col-span-5">
-                  <h3 className="font-display text-lg font-bold text-[#111111] group-hover:underline">
+                  <h3 className="font-display text-xl font-bold text-[#111111] group-hover:underline">
                     {archive.title}
                   </h3>
                 </div>
