@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { playgroundData } from '@/data/playground';
 
 // Experiment 1: WebGL Plasma Shader Toy Plane
 function ShaderToyMesh() {
@@ -167,7 +168,7 @@ function KineticTextTile() {
 export default function PlaygroundPage() {
   return (
     <div className="min-h-screen bg-[#0A0A0C] text-fg px-6 md:px-12 pt-28 pb-20">
-      <div className="max-w-6xl mx-auto space-y-12">
+      <div className="max-w-6xl mx-auto space-y-16">
         {/* Header */}
         <div>
           <span className="text-xs font-code text-accent uppercase tracking-widest block mb-2">
@@ -177,60 +178,99 @@ export default function PlaygroundPage() {
             Interactive Playground
           </h1>
           <p className="text-fg-muted text-sm md:text-base max-w-2xl mt-3 font-body">
-            A collection of procedural GLSL shader toys, canvas particle dynamics, and generative algorithmic math built natively in code.
+            A collection of procedural GLSL shader toys, canvas particle dynamics, generative algorithmic math, and kinetic posters built natively in code.
           </p>
         </div>
 
-        {/* 4 Tile Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Tile 1: WebGL Shader Toy */}
-          <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
-            <div className="flex justify-between items-center text-xs font-code text-accent">
-              <span>01 // GLSL PLASMA SHADER</span>
-              <span>R3F / THREE.JS</span>
+        {/* Live Interactive Code Sketches */}
+        <div className="space-y-6">
+          <h2 className="font-display text-xl font-bold text-fg border-b border-white/10 pb-3">
+            Real-Time Canvas & Shader Experiments
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Tile 1 */}
+            <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
+              <div className="flex justify-between items-center text-xs font-code text-accent">
+                <span>01 // GLSL PLASMA SHADER</span>
+                <span>R3F / THREE.JS</span>
+              </div>
+              <div className="w-full h-[240px] rounded-xl overflow-hidden">
+                <Canvas camera={{ position: [0, 0, 2] }}>
+                  <ShaderToyMesh />
+                </Canvas>
+              </div>
+              <p className="text-xs text-fg-muted">Procedural sine-wave color displacement shader rendered on a WebGL plane.</p>
             </div>
-            <div className="w-full h-[240px] rounded-xl overflow-hidden">
-              <Canvas camera={{ position: [0, 0, 2] }}>
-                <ShaderToyMesh />
-              </Canvas>
+
+            {/* Tile 2 */}
+            <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
+              <div className="flex justify-between items-center text-xs font-code text-accent">
+                <span>02 // CANVAS PARTICLE TRAIL</span>
+                <span>2D CONTEXT</span>
+              </div>
+              <div className="w-full h-[240px]">
+                <PhysicsParticleCanvas />
+              </div>
+              <p className="text-xs text-fg-muted">Interactive particle swarm emitting on mouse movement with decay opacity.</p>
             </div>
-            <p className="text-xs text-fg-muted">Procedural sine-wave color displacement shader rendered on a WebGL plane.</p>
+
+            {/* Tile 3 */}
+            <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
+              <div className="flex justify-between items-center text-xs font-code text-accent">
+                <span>03 // GENERATIVE MATH MATRIX</span>
+                <span>REACT STATE</span>
+              </div>
+              <div className="w-full h-[240px]">
+                <GenerativePatternGrid />
+              </div>
+              <p className="text-xs text-fg-muted">Trigonometric wave oscillating tile grid with dynamic bloom effects.</p>
+            </div>
+
+            {/* Tile 4 */}
+            <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
+              <div className="flex justify-between items-center text-xs font-code text-accent">
+                <span>04 // KINETIC TYPOGRAPHY</span>
+                <span>CSS INTERACTION</span>
+              </div>
+              <div className="w-full h-[240px]">
+                <KineticTextTile />
+              </div>
+              <p className="text-xs text-fg-muted">Variable font glyph tracking and weight scale modulation on hover.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 12 Playground Explorations Grid */}
+        <div className="space-y-6 pt-8 border-t border-white/10">
+          <div className="flex justify-between items-center">
+            <h2 className="font-display text-xl font-bold text-fg">
+              12 Micro-Exploration Artifacts
+            </h2>
+            <span className="font-code text-xs text-accent">[ INDEX: 12 TILES ]</span>
           </div>
 
-          {/* Tile 2: Canvas Physics Particle Trail */}
-          <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
-            <div className="flex justify-between items-center text-xs font-code text-accent">
-              <span>02 // CANVAS PARTICLE TRAIL</span>
-              <span>2D CONTEXT</span>
-            </div>
-            <div className="w-full h-[240px]">
-              <PhysicsParticleCanvas />
-            </div>
-            <p className="text-xs text-fg-muted">Interactive particle swarm emitting on mouse movement with decay opacity.</p>
-          </div>
-
-          {/* Tile 3: Generative Matrix Grid */}
-          <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
-            <div className="flex justify-between items-center text-xs font-code text-accent">
-              <span>03 // GENERATIVE MATH MATRIX</span>
-              <span>REACT STATE</span>
-            </div>
-            <div className="w-full h-[240px]">
-              <GenerativePatternGrid />
-            </div>
-            <p className="text-xs text-fg-muted">Trigonometric wave oscillating tile grid with dynamic bloom effects.</p>
-          </div>
-
-          {/* Tile 4: Kinetic Typography */}
-          <div className="bg-[#121216] border border-white/10 rounded-2xl p-6 space-y-4">
-            <div className="flex justify-between items-center text-xs font-code text-accent">
-              <span>04 // KINETIC TYPOGRAPHY</span>
-              <span>CSS INTERACTION</span>
-            </div>
-            <div className="w-full h-[240px]">
-              <KineticTextTile />
-            </div>
-            <p className="text-xs text-fg-muted">Variable font glyph tracking and weight scale modulation on hover.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {playgroundData.map((item) => (
+              <div
+                key={item.id}
+                className="bg-[#121216] border border-white/10 rounded-2xl p-5 space-y-3 group hover:border-accent/40 transition-colors"
+                data-cursor-label="VIEW"
+              >
+                <div className="w-full h-[200px] rounded-xl overflow-hidden bg-[#0A0A0C] border border-white/5 relative">
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="flex justify-between items-center text-[11px] font-code text-accent">
+                  <span>{item.id.toUpperCase()} // {item.category}</span>
+                </div>
+                <h3 className="font-display text-base font-bold text-fg group-hover:text-accent transition-colors">
+                  {item.title}
+                </h3>
+              </div>
+            ))}
           </div>
         </div>
       </div>

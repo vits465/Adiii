@@ -37,7 +37,7 @@ export const projectsData: Project[] = [
       • 156 REST API Endpoints with complete Postman testing collections, input validation schemas, database indexing, and error handling middlewares.
     `,
     repoUrl: "https://github.com/vits465/houseofhackney-Backeend.git",
-    cover: "/textures/global/noise.jpeg",
+    cover: "/images/work/house-of-hackney.svg",
     featured: true,
     stats: [
       { label: "API Endpoints", value: "156 Endpoints" },
@@ -67,7 +67,7 @@ export const projectsData: Project[] = [
     `,
     liveUrl: "https://the-flat-white.vercel.app/",
     repoUrl: "https://github.com/vits465/THE-FLAT-WHITE.git",
-    cover: "/textures/global/noise.jpeg",
+    cover: "/images/work/the-flat-white.svg",
     featured: true,
     stats: [
       { label: "3D Rendering", value: "Three.js / WebGL" },
@@ -96,7 +96,7 @@ export const projectsData: Project[] = [
       • Real-time Next.js risk monitoring dashboard with WebSocket updates and emergency circuit-breaker protocols.
     `,
     repoUrl: "https://github.com/vits465",
-    cover: "/textures/global/noise.jpeg",
+    cover: "/images/work/treadiiiio-goldsignal.svg",
     featured: true,
     stats: [
       { label: "Engine", value: "Node/TS + Python ML" },
@@ -126,7 +126,7 @@ export const projectsData: Project[] = [
     `,
     liveUrl: "https://www.journeyflicker.com",
     repoUrl: "https://github.com/vits465/journeyflicker.git",
-    cover: "/textures/global/noise.jpeg",
+    cover: "/images/work/journeyflicker.svg",
     featured: true,
     stats: [
       { label: "Live Client Site", value: "journeyflicker.com" },
@@ -156,7 +156,7 @@ export const projectsData: Project[] = [
     `,
     liveUrl: "https://bobbysalon.in/",
     repoUrl: "https://github.com/vits465/Bobby-Salon.git",
-    cover: "/textures/global/noise.jpeg",
+    cover: "/images/work/bobby-salon.svg",
     featured: true,
     stats: [
       { label: "Live Client Site", value: "bobbysalon.in" },
@@ -185,7 +185,7 @@ export const projectsData: Project[] = [
       • Reduced client response latency from hours to seconds while maintaining context-aware conversation flows.
     `,
     repoUrl: "https://github.com/vits465/journeyflicker-automation.git",
-    cover: "/textures/global/noise.jpeg",
+    cover: "/images/work/journeyflicker-automation.svg",
     featured: true,
     stats: [
       { label: "Response Rate", value: "Instant 24/7" },

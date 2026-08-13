@@ -8,13 +8,44 @@ import { siteConfig } from '@/data/site';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: `${siteConfig.shortName} — ${siteConfig.title}`,
+  metadataBase: new URL('https://the-flat-white.vercel.app/'),
+  title: `${siteConfig.name} — ${siteConfig.title}`,
   description: siteConfig.bio,
+  keywords: [
+    'Aditya Chauhan',
+    'Fullstack Engineer',
+    'WebGL Developer',
+    'Three.js Portfolio',
+    'React Developer',
+    'Node.js Architect',
+    'Surat Gujarat Software Engineer',
+  ],
+  authors: [{ name: siteConfig.name, url: siteConfig.github }],
   openGraph: {
-    title: siteConfig.name,
-    description: siteConfig.title,
+    title: `${siteConfig.name} — ${siteConfig.title}`,
+    description: siteConfig.bio,
     url: 'https://the-flat-white.vercel.app/',
+    siteName: `${siteConfig.name} Portfolio`,
+    images: [
+      {
+        url: '/images/work/house-of-hackney.svg',
+        width: 1200,
+        height: 800,
+        alt: `${siteConfig.name} Portfolio Showcase`,
+      },
+    ],
+    locale: 'en_US',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteConfig.name} — ${siteConfig.title}`,
+    description: siteConfig.bio,
+    images: ['/images/work/house-of-hackney.svg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <rect width="1200" height="800" fill="#0A0A0C"/>
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C6FF3D" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0A0A0C" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+  <circle cx="600" cy="400" r="300" fill="url(#g1)"/>
+  <rect x="200" y="180" width="800" height="440" rx="16" fill="#121216" stroke="rgba(198,255,61,0.3)" stroke-width="2"/>
+  <text x="240" y="240" font-family="monospace" font-size="14" fill="#C6FF3D" letter-spacing="3">01 // ENTERPRISE BACKEND ARCHITECTURE</text>
+  <text x="240" y="310" font-family="sans-serif" font-size="42" font-weight="bold" fill="#F4F3EF">House of Hackney API</text>
+  <text x="240" y="360" font-family="monospace" font-size="18" fill="#8E8D8A">156 Endpoints • 43 MongoDB Collections • 3-Layer Pattern</text>
+  <!-- Micro Architecture Diagram Lines -->
+  <rect x="240" y="420" width="220" height="140" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="260" y="460" font-family="monospace" font-size="14" fill="#C6FF3D">Controller Layer</text>
+  <text x="260" y="490" font-family="sans-serif" font-size="12" fill="#8E8D8A">Input Schema Validation</text>
+  
+  <rect x="490" y="420" width="220" height="140" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="510" y="460" font-family="monospace" font-size="14" fill="#C6FF3D">Service Layer</text>
+  <text x="510" y="490" font-family="sans-serif" font-size="12" fill="#8E8D8A">Domain Logic &amp; Auth</text>
+  
+  <rect x="740" y="420" width="220" height="140" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(198,255,61,0.4)"/>
+  <text x="760" y="460" font-family="monospace" font-size="14" fill="#C6FF3D">Repository Layer</text>
+  <text x="760" y="490" font-family="sans-serif" font-size="12" fill="#8E8D8A">MongoDB Mongoose ORM</text>
+</svg>

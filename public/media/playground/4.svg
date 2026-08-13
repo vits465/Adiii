@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <rect width="800" height="600" fill="#0A0A0C"/>
+  <g fill="#C6FF3D">
+    <circle cx="200" cy="200" r="4"/><circle cx="300" cy="180" r="6"/><circle cx="400" cy="220" r="8"/>
+    <circle cx="500" cy="190" r="5"/><circle cx="600" cy="210" r="7"/><circle cx="350" cy="320" r="10"/>
+    <circle cx="450" cy="350" r="12"/><circle cx="250" cy="400" r="6"/><circle cx="550" cy="420" r="8"/>
+  </g>
+  <text x="40" y="550" font-family="monospace" font-size="14" fill="#C6FF3D">PG-04 // PARTICLE MORPHING FIELD</text>
+</svg>
