@@ -5,46 +5,61 @@ import { siteConfig } from '@/data/site';
 
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const [isWiped, setIsWiped] = useState(false);
 
   useEffect(() => {
+    // Real font load checking paired with progress ticker
+    if (typeof document !== 'undefined' && 'fonts' in document) {
+      document.fonts.ready.then(() => {
+        setProgress((prev) => Math.max(prev, 60));
+      });
+    }
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsLoaded(true), 400);
+          setTimeout(() => setIsDone(true), 300);
+          setTimeout(() => setIsWiped(true), 800);
           return 100;
         }
-        return prev + Math.floor(Math.random() * 15) + 5;
+        return prev + Math.floor(Math.random() * 18) + 8;
       });
-    }, 80);
+    }, 60);
 
     return () => clearInterval(interval);
   }, []);
 
-  if (isLoaded) return null;
+  if (isWiped) return null;
 
   return (
     <div
-      className={`fixed inset-0 bg-[#083D2A] text-white z-[99999] flex flex-col justify-between p-8 md:p-12 transition-opacity duration-700 ${
-        progress >= 100 ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      className={`fixed inset-0 bg-[#0A0A0C] text-[#F4F3EF] z-[99999] flex flex-col justify-between p-8 md:p-14 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isDone ? '-translate-y-full opacity-90' : 'translate-y-0 opacity-100'
       }`}
     >
-      <div className="flex justify-between items-center text-xs font-mono text-emerald-300 uppercase tracking-widest">
-        <span>{siteConfig.shortName}</span>
-        <span>Loading Portfolio // {progress}%</span>
+      {/* Top Bar */}
+      <div className="flex justify-between items-center text-xs font-code text-accent uppercase tracking-widest">
+        <span>{siteConfig.shortName} // Portfolio</span>
+        <span>INITIALIZING WEBGL // {progress}%</span>
       </div>
 
-      <div className="my-auto">
-        <h1 className="font-headline text-3xl md:text-6xl font-bold tracking-tight text-emerald-100 leading-tight max-w-3xl">
+      {/* Center Reveal Typography */}
+      <div className="my-auto max-w-4xl">
+        <span className="text-xs font-code text-fg-muted uppercase tracking-widest block mb-4">
+          SYSTEM ARCHITECTURE & WEBGL SHADERS
+        </span>
+        <h1 className="font-display text-4xl md:text-7xl font-bold tracking-tight text-fg leading-tight">
           Driven by precision. <br />
-          Obsessed with fullstack architecture.
+          <span className="text-accent">Obsessed with fullstack</span> architecture.
         </h1>
       </div>
 
-      <div className="w-full bg-emerald-950/60 h-1 rounded-full overflow-hidden">
+      {/* Progress Bar */}
+      <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
         <div
-          className="bg-emerald-400 h-full transition-all duration-150 ease-out"
+          className="bg-accent h-full transition-all duration-150 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>

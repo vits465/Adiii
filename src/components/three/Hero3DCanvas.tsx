@@ -1,113 +1,166 @@
 'use client';
 
-import React, { useRef, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, Float } from '@react-three/drei';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function HomeModel() {
-  const meshRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/models/home/scene_v9.glb');
+const vertexShader = `
+  uniform float uTime;
+  uniform vec2 uMouse;
+  varying vec2 vUv;
+  varying float vDisplacement;
 
-  useFrame((state) => {
+  // Simplex noise helper functions
+  vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+  vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+  float snoise(vec2 v) {
+    const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                        -0.577350269189626, 0.024390243902439);
+    vec2 i  = floor(v + dot(v, C.yy) );
+    vec2 x0 = v -   i + dot(i, C.xx);
+    vec2 i1;
+    i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec4 x12 = x0.xyxy + C.xxzz;
+    x12.xy -= i1;
+    i = mod289(i);
+    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+      + i.x + vec3(0.0, i1.x, 1.0 ));
+    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+    m = m*m ;
+    m = m*m ;
+    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+    vec3 h = abs(x) - 0.5;
+    vec3 ox = floor(x + 0.5);
+    vec3 a0 = x - ox;
+    m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+    vec3 g;
+    g.x  = a0.x  * x0.x  + h.x  * x0.y;
+    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+    return 130.0 * dot(m, g);
+  }
+
+  void main() {
+    vUv = uv;
+    vec3 pos = position;
+    
+    // Wave & noise displacement
+    float noiseScale = 1.2;
+    float noise = snoise(vec2(pos.x * noiseScale + uTime * 0.25, pos.y * noiseScale + uTime * 0.2));
+    
+    // Parallax mouse influence
+    float distToMouse = distance(uv, uMouse);
+    float mouseWave = sin(distToMouse * 8.0 - uTime * 2.0) * 0.15 * (1.0 - smoothstep(0.0, 0.8, distToMouse));
+    
+    pos.z += noise * 0.45 + mouseWave;
+    vDisplacement = noise;
+    
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+  }
+`;
+
+const fragmentShader = `
+  uniform float uTime;
+  uniform vec3 uColorBase;
+  uniform vec3 uColorAccent;
+  varying vec2 vUv;
+  varying float vDisplacement;
+
+  void main() {
+    float mixFactor = smoothstep(-0.4, 0.6, vDisplacement);
+    
+    // Mix charcoal base with vibrant electric accent
+    vec3 color = mix(uColorBase, uColorAccent, mixFactor * 0.65);
+    
+    // Vignette towards edges
+    float edgeVignette = smoothstep(0.7, 0.2, length(vUv - vec2(0.5)));
+    color *= edgeVignette;
+
+    // Grid glow line detail
+    float grid = abs(sin(vUv.x * 40.0)) * abs(sin(vUv.y * 40.0));
+    grid = pow(grid, 12.0) * 0.12;
+    color += uColorAccent * grid;
+
+    gl_FragColor = vec4(color, 0.95);
+  }
+`;
+
+function ProceduralShaderMesh() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const mouseLerp = useRef({ x: 0.5, y: 0.5 });
+  const { viewport } = useThree();
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+      uColorBase: { value: new THREE.Color('#0A0A0C') },
+      uColorAccent: { value: new THREE.Color('#C6FF3D') },
+    }),
+    []
+  );
+
+  useFrame((state, delta) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.003;
-      meshRef.current.rotation.x = state.mouse.y * 0.15;
-      meshRef.current.rotation.y += state.mouse.x * 0.15;
+      const material = meshRef.current.material as THREE.ShaderMaterial;
+      material.uniforms.uTime.value += delta;
+
+      // Mouse lerp parallax
+      mouseLerp.current.x += (state.pointer.x * 0.5 + 0.5 - mouseLerp.current.x) * 0.05;
+      mouseLerp.current.y += (state.pointer.y * 0.5 + 0.5 - mouseLerp.current.y) * 0.05;
+
+      material.uniforms.uMouse.value.set(mouseLerp.current.x, mouseLerp.current.y);
+
+      // Subtle camera parallax tilt
+      meshRef.current.rotation.x = (mouseLerp.current.y - 0.5) * 0.2;
+      meshRef.current.rotation.y = (mouseLerp.current.x - 0.5) * 0.2;
     }
   });
 
   return (
-    <group ref={meshRef} scale={[1.35, 1.35, 1.35]} position={[0, -0.2, 0]}>
-      <primitive object={scene} />
-    </group>
-  );
-}
-
-function FloatingItem({ path, position, scale }: { path: string; position: [number, number, number]; scale: number }) {
-  const { scene } = useGLTF(path);
-  return (
-    <Float speed={2.5} rotationIntensity={1.2} floatIntensity={1.5}>
-      <primitive object={scene.clone()} position={position} scale={scale} />
-    </Float>
-  );
-}
-
-function Particles() {
-  const pointsRef = useRef<THREE.Points>(null);
-  const count = 120;
-  const positions = React.useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
-    }
-    return pos;
-  }, []);
-
-  useFrame((_, delta) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.05;
-    }
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
-      </bufferGeometry>
-      <pointsMaterial size={0.05} color="#e5cf96" transparent opacity={0.5} />
-    </points>
-  );
-}
-
-function FallbackMesh() {
-  const ref = useRef<THREE.Mesh>(null);
-  useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.x += 0.005;
-      ref.current.rotation.y += 0.008;
-    }
-  });
-
-  return (
-    <mesh ref={ref}>
-      <torusKnotGeometry args={[1.2, 0.38, 128, 32]} />
-      <meshPhongMaterial color="#083D2A" specular="#e5cf96" shininess={90} transparent opacity={0.9} />
+    <mesh ref={meshRef} scale={[viewport.width * 1.2, viewport.height * 1.2, 1]}>
+      <planeGeometry args={[1, 1, 64, 64]} />
+      <shaderMaterial
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        wireframe={false}
+        transparent
+      />
     </mesh>
   );
 }
 
 export default function Hero3DCanvas() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="w-full h-[480px] md:h-[580px] relative">
-      <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }}>
-        <ambientLight intensity={1.5} />
-        <directionalLight position={[5, 8, 5]} intensity={2.5} color="#e5cf96" />
-        <directionalLight position={[-5, -5, 3]} intensity={1.8} color="#146949" />
-        <pointLight position={[0, 3, 2]} intensity={1.5} color="#e5cf96" />
-
-        <Particles />
-
-        <Suspense fallback={<FallbackMesh />}>
-          <HomeModel />
-          <FloatingItem path="/models/global/flower/flower_v2.glb" position={[-2.2, 1.6, 0.5]} scale={0.7} />
-          <FloatingItem path="/models/global/bee/bee_v4.glb" position={[2.4, 1.8, 0.8]} scale={0.6} />
-          <FloatingItem path="/models/global/fruits/orange.glb" position={[-2.6, -1.4, 1]} scale={0.55} />
-          <FloatingItem path="/models/global/fruits/raisin.glb" position={[2.5, -1.5, 0.7]} scale={0.5} />
-        </Suspense>
+    <div ref={containerRef} className="w-full h-full min-h-[440px] md:min-h-[560px] relative overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0C]">
+      <Canvas
+        camera={{ position: [0, 0, 3], fov: 45 }}
+        dpr={[1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2)]}
+        frameloop={isVisible ? 'always' : 'never'}
+        gl={{ antialias: true, powerPreference: 'high-performance' }}
+      >
+        <ProceduralShaderMesh />
       </Canvas>
     </div>
   );
 }
-
-useGLTF.preload('/models/home/scene_v9.glb');
-useGLTF.preload('/models/global/flower/flower_v2.glb');
-useGLTF.preload('/models/global/bee/bee_v4.glb');
-useGLTF.preload('/models/global/fruits/orange.glb');
-useGLTF.preload('/models/global/fruits/raisin.glb');
-

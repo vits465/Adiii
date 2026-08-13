@@ -2,69 +2,61 @@
 
 import React, { useState } from 'react';
 import { siteConfig } from '@/data/site';
-import { usePathname } from 'next/navigation';
 
 export default function Footer() {
   const [showCredits, setShowCredits] = useState(false);
-  const pathname = usePathname();
-  const isDark = pathname === '/about' || pathname === '/playground';
 
   return (
-    <footer className={`relative z-10 px-6 md:px-10 pt-20 pb-10 border-t ${
-      isDark ? 'border-white/20 text-white' : 'border-black/10 text-[#111]'
-    }`}>
-      {/* Kinetic Marquee */}
-      <div className="overflow-hidden whitespace-nowrap py-8 mb-12">
-        <div className="animate-marquee">
-          <span className="font-headline text-3xl md:text-5xl font-bold uppercase tracking-tight">
-            LET'S BUILD A REMARKABLE DIGITAL PRODUCT ★ YOUR VISION STARTS HERE ★ &nbsp;
-          </span>
-          <span className="font-headline text-3xl md:text-5xl font-bold uppercase tracking-tight">
-            LET'S BUILD A REMARKABLE DIGITAL PRODUCT ★ YOUR VISION STARTS HERE ★ &nbsp;
-          </span>
+    <footer className="relative z-10 px-6 md:px-12 pt-20 pb-12 border-t border-white/10 bg-[#0A0A0C] text-fg">
+      {/* Kinetic Marquee Banner */}
+      <div className="overflow-hidden whitespace-nowrap py-6 mb-12 border-y border-white/5">
+        <div className="animate-marquee font-display text-2xl md:text-5xl font-bold uppercase tracking-tight text-white/90">
+          <span>LET'S BUILD A REMARKABLE DIGITAL PRODUCT ★ AVAILABLE FOR HIGHER-ORDER ARCHITECTURE ★ &nbsp;</span>
+          <span>LET'S BUILD A REMARKABLE DIGITAL PRODUCT ★ AVAILABLE FOR HIGHER-ORDER ARCHITECTURE ★ &nbsp;</span>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        <button
-          onClick={() => setShowCredits(true)}
-          className={`font-body text-xs md:text-sm font-semibold px-5 py-2 rounded-full border transition-all ${
-            isDark
-              ? 'border-white text-white hover:bg-white hover:text-[#083D2A]'
-              : 'border-[#111] text-[#111] hover:bg-[#111] hover:text-white'
-          }`}
-        >
-          Credits
-        </button>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <div>
+          <button
+            onClick={() => setShowCredits(false)}
+            className="font-code text-xs uppercase tracking-widest text-accent hover:underline mb-2 block"
+          >
+            Aditya Chauhan // Fullstack & WebGL Engineer
+          </button>
+          <p className="text-xs text-fg-muted max-w-md">
+            Engineered with Next.js 14, React Three Fiber, WebGL Shaders, and GSAP. 100% procedural assets with zero external third-party media dependencies.
+          </p>
+        </div>
 
-        <div className="flex flex-wrap gap-6 text-sm font-medium">
+        <div className="flex flex-wrap items-center gap-6 text-xs font-code">
+          <button
+            onClick={() => setShowCredits(true)}
+            className="px-4 py-2 rounded-full border border-white/20 text-fg hover:border-accent hover:text-accent transition-colors"
+          >
+            CREDITS.md
+          </button>
           <a
             href={`mailto:${siteConfig.email}`}
-            className={`transition-colors ${isDark ? 'text-emerald-200 hover:text-white' : 'text-[#555] hover:text-[#111]'}`}
+            className="text-fg-muted hover:text-accent transition-colors"
           >
             {siteConfig.email}
-          </a>
-          <a
-            href={`tel:${siteConfig.phone}`}
-            className={`transition-colors ${isDark ? 'text-emerald-200 hover:text-white' : 'text-[#555] hover:text-[#111]'}`}
-          >
-            {siteConfig.phone}
           </a>
           <a
             href={siteConfig.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className={`transition-colors ${isDark ? 'text-emerald-200 hover:text-white' : 'text-[#555] hover:text-[#111]'}`}
+            className="text-fg-muted hover:text-accent transition-colors"
           >
-            LinkedIn
+            LinkedIn ↗
           </a>
           <a
             href={siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
-            className={`transition-colors ${isDark ? 'text-emerald-200 hover:text-white' : 'text-[#555] hover:text-[#111]'}`}
+            className="text-fg-muted hover:text-accent transition-colors"
           >
-            GitHub
+            GitHub ↗
           </a>
         </div>
       </div>
@@ -77,25 +69,25 @@ export default function Footer() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#083D2A] text-white rounded-2xl p-8 max-w-lg w-full relative shadow-2xl border border-white/20"
+            className="bg-[#121216] text-fg rounded-2xl p-8 max-w-xl w-full relative shadow-2xl border border-white/20"
           >
             <button
               onClick={() => setShowCredits(false)}
-              className="absolute top-5 right-5 text-white/80 hover:text-white text-2xl"
+              className="absolute top-5 right-5 text-fg-muted hover:text-accent text-2xl"
             >
               &times;
             </button>
-            <h3 className="font-headline text-2xl font-bold mb-3">Credits & Specifications</h3>
-            <p className="text-emerald-100 text-sm leading-relaxed mb-6">
-              Designed & engineered for <strong>{siteConfig.name}</strong> based on Léo Parpeix interactive art direction.
+            <h3 className="font-display text-2xl font-bold mb-3 text-accent">CREDITS & SPECIFICATIONS</h3>
+            <p className="text-fg-muted text-sm leading-relaxed mb-6">
+              Designed & engineered for <strong>{siteConfig.name}</strong> referencing modern interaction patterns with 100% original procedural assets.
             </p>
-            <hr className="border-white/20 my-4" />
-            <div className="space-y-2 text-sm text-emerald-200">
-              <p>• <strong>Framework:</strong> Next.js App Router + TypeScript</p>
-              <p>• <strong>Typography:</strong> Monument Grotesk & Avantt Variable</p>
-              <p>• <strong>3D Engine:</strong> Three.js + React Three Fiber + Drei</p>
-              <p>• <strong>Motion:</strong> GSAP + ScrollTrigger + Lenis Smooth Scroll</p>
-              <p>• <strong>Audio Engine:</strong> Web Audio API Synthesizer</p>
+            <hr className="border-white/10 my-4" />
+            <div className="space-y-2.5 text-xs font-code text-fg-muted">
+              <p>• <strong className="text-fg">Framework:</strong> Next.js 14 App Router + TypeScript</p>
+              <p>• <strong className="text-fg">Typography:</strong> Space Grotesk & Plus Jakarta Sans (OFL / Google Fonts)</p>
+              <p>• <strong className="text-fg">3D & Shaders:</strong> Three.js + R3F + Custom Procedural GLSL Noise Shaders</p>
+              <p>• <strong className="text-fg">Motion Engine:</strong> GSAP + ScrollTrigger + Lenis Smooth Scroll</p>
+              <p>• <strong className="text-fg">Audio Engine:</strong> Web Audio API Parametric Oscillator Synthesizer</p>
             </div>
           </div>
         </div>

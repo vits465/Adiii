@@ -1,68 +1,76 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 export default function SoundEqualizer() {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [audioCtx, setAudioCtx] = useState<AudioContext | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
-  const getAudioContext = () => {
-    if (!audioCtx && typeof window !== 'undefined') {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-      if (AudioContextClass) {
-        const ctx = new AudioContextClass();
-        setAudioCtx(ctx);
-        return ctx;
+  const initAudio = () => {
+    if (!audioCtxRef.current && typeof window !== 'undefined') {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (AudioCtx) {
+        audioCtxRef.current = new AudioCtx();
       }
     }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
+    if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+      audioCtxRef.current.resume();
     }
-    return audioCtx;
   };
 
-  const playClickSound = () => {
+  const playSynthesizedTone = (freq = 440, type: OscillatorType = 'sine', duration = 0.12) => {
     if (!isPlaying) return;
     try {
-      const ctx = getAudioContext();
+      initAudio();
+      const ctx = audioCtxRef.current;
       if (!ctx) return;
+
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(600, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.08);
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.5, ctx.currentTime + duration);
 
-      gain.gain.setValueAtTime(0.04, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.03, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start();
-      osc.stop(ctx.currentTime + 0.08);
+      osc.stop(ctx.currentTime + duration);
     } catch (e) {
-      // Audio autoplay restriction fallback
+      // Autoplay fallback silently ignored
     }
   };
 
   const toggleSound = () => {
-    setIsPlaying(!isPlaying);
-    playClickSound();
+    initAudio();
+    const nextState = !isPlaying;
+    setIsPlaying(nextState);
+    if (nextState) {
+      playSynthesizedTone(520, 'triangle', 0.18);
+    }
   };
 
   return (
     <button
       onClick={toggleSound}
-      className={`sound-eq-btn flex items-center gap-[3px] h-[20px] px-1 bg-transparent border-none cursor-pointer ${
-        isPlaying ? 'playing' : ''
+      onMouseEnter={() => playSynthesizedTone(380, 'sine', 0.08)}
+      className={`sound-eq-btn flex items-center gap-[3px] h-[20px] px-2 py-1 bg-white/5 border border-white/10 rounded-full cursor-pointer hover:border-accent/40 transition-colors ${
+        isPlaying ? 'playing text-accent' : 'text-fg-muted'
       }`}
-      title={isPlaying ? 'Mute Sound' : 'Enable Sound'}
+      title={isPlaying ? 'Mute Audio Synthesizer' : 'Enable Audio Synthesizer'}
+      data-cursor-label="AUDIO"
     >
-      <span className="eq-bar w-[2px] h-[16px] bg-current rounded-[1px] transition-colors" />
-      <span className="eq-bar w-[2px] h-[16px] bg-current rounded-[1px] transition-colors" />
-      <span className="eq-bar w-[2px] h-[16px] bg-current rounded-[1px] transition-colors" />
-      <span className="eq-bar w-[2px] h-[16px] bg-current rounded-[1px] transition-colors" />
+      <span className="eq-bar w-[2px] h-[14px] bg-current rounded-[1px] transition-colors" />
+      <span className="eq-bar w-[2px] h-[14px] bg-current rounded-[1px] transition-colors" />
+      <span className="eq-bar w-[2px] h-[14px] bg-current rounded-[1px] transition-colors" />
+      <span className="eq-bar w-[2px] h-[14px] bg-current rounded-[1px] transition-colors" />
+      <span className="ml-1 text-[10px] font-code uppercase">
+        {isPlaying ? 'SOUND ON' : 'SOUND OFF'}
+      </span>
     </button>
   );
 }

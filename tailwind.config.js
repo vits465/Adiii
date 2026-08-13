@@ -8,15 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#e6e6e6',
-        emeraldDark: '#083D2A',
-        emeraldMint: '#10b981',
-        accentGold: '#f59e0b',
+        bg: '#0A0A0C',
+        'bg-card': '#121216',
+        fg: '#F4F3EF',
+        'fg-muted': '#8E8D8A',
+        accent: '#C6FF3D',
+        'accent-gold': '#C9A227',
       },
       fontFamily: {
-        headline: ['Monument Grotesk', '-apple-system', 'sans-serif'],
-        body: ['Avantt', '-apple-system', 'sans-serif'],
-        code: ['Fira Code', 'monospace'],
+        display: ['var(--font-display)', 'sans-serif'],
+        body: ['var(--font-body)', 'sans-serif'],
+        code: ['var(--font-code)', 'monospace'],
+      },
+      transitionTimingFunction: {
+        premium: 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
     },
   },
